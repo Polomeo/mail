@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // By default, load the inbox
   load_mailbox('inbox');
 
+  // Send email event listener
   document.querySelector('#compose-form').onsubmit = send_email;
 
 });
@@ -23,11 +24,6 @@ function compose_email() {
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
-
-  // // Listen for send button
-  // document.addEventListener('DOMContentLoaded', function() {
-  //   document.querySelector('#compose-form').onsubmit = send_email;
-  // })
 
 }
 
