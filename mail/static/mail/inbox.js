@@ -48,16 +48,16 @@ function send_email() {
     .then(response => response.json())
     .then(result => {
       // Print result in console
-      evt.preventDefault();
       if (result.error) {
-        console.log('Error: ', error);
+        console.log('Error: ', result.error);
       }
-      console.log(result);
+      console.log('Result: ', result.result);
     })
     .catch(error => {
-      evt.preventDefault();
       console.log('Error: ', error);
     });
+
+    return false;
 
   }
 
