@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
   load_mailbox('inbox');
 
   // Send email event listener
-  document.querySelector('#compose-submit').addEventListener('click', send_email)
+  document.querySelector('#compose-form').addEventListener('submit', send_email)
 
 });
 
@@ -27,9 +27,12 @@ function compose_email() {
 
 }
 
-function send_email() {
+function send_email(event) {
 
     console.log('ENTERED SEND EMAIL METHOD');
+    
+    // Prevent automatic reload of the page
+    event.preventDefault();
 
     // Get the inputs from the user
     const mail_recipients = document.querySelector('#compose-recipients').value.toString();
@@ -51,12 +54,13 @@ function send_email() {
       if (result.error) {
         console.log('Error: ', result.error);
       }
-      console.log('Result: ', result.result);
+      console.log('Result: ', result);
     })
     .catch(error => {
       console.log('Error: ', error);
     });
 
+    // Stops redirecting (DOES NOT WORK)
     return false;
 
   }
