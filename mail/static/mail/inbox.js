@@ -55,14 +55,14 @@ function send_email(event) {
         console.log('Error: ', result.error);
       }
       console.log('Result: ', result);
+
+      // Redirects to sent box
+      load_mailbox('sent');
+
     })
     .catch(error => {
       console.log('Error: ', error);
     });
-
-    // Stops redirecting (DOES NOT WORK)
-    return false;
-
   }
 
 function load_mailbox(mailbox) {
