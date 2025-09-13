@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
   load_mailbox('inbox');
 
   // Send email event listener
-  document.querySelector('#compose-form').onsubmit = send_email;
+  document.querySelector('#compose-submit').addEventListener('click', send_email)
 
 });
 
@@ -29,12 +29,12 @@ function compose_email() {
 
 function send_email() {
 
+    console.log('ENTERED SEND EMAIL METHOD');
+
     // Get the inputs from the user
     const mail_recipients = document.querySelector('#compose-recipients').value.toString();
     const mail_subject = document.querySelector('#compose-subject').value.toString();
     const mail_body = document.querySelector('#compose-body').value.toString();
-
-    console.log(mail_recipients);
 
     // Try to send the mail
     fetch('/emails', {
@@ -48,7 +48,15 @@ function send_email() {
     .then(response => response.json())
     .then(result => {
       // Print result in console
+      evt.preventDefault();
+      if (result.error) {
+        console.log('Error: ', error);
+      }
       console.log(result);
+    })
+    .catch(error => {
+      evt.preventDefault();
+      console.log('Error: ', error);
     });
 
   }
