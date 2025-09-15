@@ -75,4 +75,27 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
+  // Fetch the mailbox
+  fetch(`emails/${mailbox}`)
+  .then(response => response.json())
+  .then(emails => {
+    console.log(emails);
+
+    // for(var mail in emails) {
+    //   const mail_cont = document.createElement('div');
+    //   mail_cont.innerHTML = `From: ${mail.sender} - Subject: ${mail.subject} - At ${mail.timestamp}`;
+    //   document.querySelector('#emails-view').append(mail);
+    // }
+
+    // Add emails to template
+    emails.forEach(element => {
+      console.log(element.sender);
+      const mail = document.createElement('div');
+      mail.innerHTML = `From: ${element.sender} - Subject: ${element.subject} - At ${element.timestamp}`;
+      document.querySelector('#emails-view').append(mail);
+    });
+  });
+
+
 }
