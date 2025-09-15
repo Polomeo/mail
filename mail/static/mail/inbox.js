@@ -53,15 +53,17 @@ function send_email(event) {
       // Print result in console
       if (result.error) {
         console.log('Error: ', result.error);
+        document.querySelector('#recipient-error').innerHTML = result.error
       }
-      console.log('Result: ', result);
-
-      // Redirects to sent box
-      load_mailbox('sent');
-
+      else {
+        console.log('Result: ', result);
+        // Redirects to sent box
+        load_mailbox('sent');
+      }
     })
     .catch(error => {
       console.log('Error: ', error);
+      document.querySelector('#recipient-error').innerHTML = result.error
     });
   }
 
