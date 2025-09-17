@@ -82,20 +82,14 @@ function load_mailbox(mailbox) {
   .then(emails => {
     console.log(emails);
 
-    // for(var mail in emails) {
-    //   const mail_cont = document.createElement('div');
-    //   mail_cont.innerHTML = `From: ${mail.sender} - Subject: ${mail.subject} - At ${mail.timestamp}`;
-    //   document.querySelector('#emails-view').append(mail);
-    // }
-
     // Add emails to template
     emails.forEach(element => {
       console.log(element.sender);
       const mail = document.createElement('div');
-      mail.innerHTML = `From: ${element.sender} - Subject: ${element.subject} - At ${element.timestamp}`;
+      mail.innerHTML = `<b> ${element.sender} </b> ${element.subject} - At ${element.timestamp}`;
       document.querySelector('#emails-view').append(mail);
+      mail.setAttribute('class', "mail-list-item");
     });
   });
-
 
 }

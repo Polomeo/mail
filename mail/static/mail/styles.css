@@ -5,3 +5,9 @@ textarea {
 #recipient-error {
     color: red;
 }
+
+.mail-list-item {
+    border: 1px solid black;
+    padding: 5px;
+    margin-top: 10px;
+}
