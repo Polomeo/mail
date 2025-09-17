@@ -89,6 +89,9 @@ function load_mailbox(mailbox) {
       mail.innerHTML = `<b> ${element.sender} </b> ${element.subject} - At ${element.timestamp}`;
       document.querySelector('#emails-view').append(mail);
       mail.setAttribute('class', "mail-list-item");
+      if (element.read) {
+        mail.style.backgroundColor = "lightgray";
+      }
     });
   });
 
