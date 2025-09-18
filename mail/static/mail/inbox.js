@@ -65,7 +65,7 @@ function send_email(event) {
       console.log('Error: ', error);
       document.querySelector('#recipient-error').innerHTML = result.error
     });
-  }
+}
 
 function load_mailbox(mailbox) {
   
@@ -84,15 +84,35 @@ function load_mailbox(mailbox) {
 
     // Add emails to template
     emails.forEach(element => {
-      console.log(element.sender);
+
+      // Create a div element for each mail
       const mail = document.createElement('div');
       mail.innerHTML = `<b> ${element.sender} </b> ${element.subject} - At ${element.timestamp}`;
       document.querySelector('#emails-view').append(mail);
+
+      // Styling
       mail.setAttribute('class', "mail-list-item");
       if (element.read) {
         mail.style.backgroundColor = "lightgray";
       }
+
+      // ID
+      mail.setAttribute('id', `${element.id}`)
+
+      // Event
+      mail.addEventListener('click', function() {
+        open_email(element.id);
+        // PUT mail on seen [TODO]
+      });
     });
   });
 
+}
+
+function open_email(mail_id) {
+  fetch(`/emails/${mail_id}`)
+  .then(response => response.json())
+  .then(mail => {
+    console.log(mail);
+  });
 }
