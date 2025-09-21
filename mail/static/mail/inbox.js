@@ -122,10 +122,20 @@ function load_email(mail_id) {
   .then(response => response.json())
   .then(mail => {
     console.log(mail);
+    // let mail_recipents_list = '';
+    
+    // mail.recipents.forEach((recipent) => {
+    //   if (mail_recipents_list == '') {
+    //     mail_recipents_list.concat(`, ${recipent.toString()}`);
+    //   }
+    //   else {
+    //     mail_recipents_list.concat(`${recipent.toString()}`);
+    //   }
+    // });
 
     // Fill the HTML table for mail header
     document.querySelector('#mail-sender').innerHTML = `${mail['sender']}`;
-    document.querySelector('#mail-recipents').innerHTML = `${mail['recipents']}`;
+    document.querySelector('#mail-recipents').innerHTML = `${mail['recipients']}`
     document.querySelector('#mail-subject').innerHTML = `${mail['subject']}`;
     document.querySelector('#mail-timestamp').innerHTML = `${mail['timestamp']}`;
     
