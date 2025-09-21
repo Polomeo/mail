@@ -10,7 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
   load_mailbox('inbox');
 
   // Send email event listener
-  document.querySelector('#compose-form').addEventListener('submit', send_email)
+  document.querySelector('#compose-form').addEventListener('submit', send_email);
+
+  // Archive email event listener
+  // document.querySelector('#archive-btn').addEventListener('click', function () {
+  //   archive_email(document.querySelector('#archive-btn').getAttribute('name'));
+  // });
 
 });
 
@@ -129,21 +134,55 @@ function load_email(mail_id) {
     document.querySelector('#mail-timestamp').innerHTML = `${mail['timestamp']}`;
     
     // Mail body
-    document.querySelector('#mail-body').innerHTML = `${mail['body']}`;
+    document.querySelector('#mail-body').innerHTML = `${mail['body']}`; 
 
-    // Reply button
-    // [TODO]
+    // Set buttons name attribute
+    const archive_button = document.querySelector('#archive-btn');
+    document.querySelector('#reply-btn').setAttribute('name', `${mail_id}`);
+    archive_button.setAttribute('name', `${mail_id}`);
     
+    // Archive button
+    // -- Set button display
+    if (mail.archived == false) {
+      archive_button.innerHTML = 'Archive';
+    } else {
+      archive_button.innerHTML = 'Unarchive';
+    }
 
-    // PUT mail on seen [TODO]
+    // Add listener
+    archive_button.addEventListener('click', function () {
+      archive_email(archive_button.getAttribute('name'), mail.archived);
+    });
+
+    // Reply button [TODO]
+
+
+    // PUT mail on read
     fetch(`/emails/${mail_id}`, {
       method: 'PUT',
       body: JSON.stringify({
         read : true
       })
     });
-
   });
+}
+
+function archive_email(mail_id, is_archived) {
+
+  // If not given an id, return
+  if (!mail_id) {
+    console.log(`[Archive func] Mail ID: ${mail_id}`);
+    return;
+  }
+  
+  // Archive and return to inbox
+  fetch(`/emails/${mail_id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      archived : !is_archived
+    })
+  });
+  load_mailbox('inbox');
 }
 
 // Utilitary functions
