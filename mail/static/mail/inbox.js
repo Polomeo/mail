@@ -120,7 +120,6 @@ function load_email(mail_id) {
   // Show mail view page
   show_page('#email-view');
 
-
   // Fetch the mail by id
   fetch(`/emails/${mail_id}`)
   .then(response => response.json())
@@ -131,12 +130,11 @@ function load_email(mail_id) {
 
 // Utilitary functions
 function show_page(page) {
-  const pages = ['#emails-view', '#compose-view', '#email-view',];
-
-  // Hide all pages
-  pages.forEach(element =>{
-    document.querySelector(element).style.display = 'none';
-  });
+  
+  // Hide Pages
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector('#email-view').style.display = 'none';
 
   // Show selected page
   document.querySelector(page).style.display = 'block';
