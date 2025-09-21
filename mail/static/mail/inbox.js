@@ -106,10 +106,7 @@ function load_mailbox(mailbox) {
       // Event
       mail.addEventListener('click', function() {
         load_email(element.id);
-        // Create HTML for mailView
-        // PUT mail on seen [TODO]
-        // Hide mailbox
-        // Show mail view
+        
       });
     });
   });
@@ -125,6 +122,21 @@ function load_email(mail_id) {
   .then(response => response.json())
   .then(mail => {
     console.log(mail);
+
+    // Fill the HTML table for mail header
+    document.querySelector('#mail-sender').innerHTML = `${mail['sender']}`;
+    document.querySelector('#mail-recipents').innerHTML = `${mail['recipents']}`;
+    document.querySelector('#mail-subject').innerHTML = `${mail['subject']}`;
+    document.querySelector('#mail-timestamp').innerHTML = `${mail['timestamp']}`;
+    
+    // Mail body
+    document.querySelector('#mail-body').innerHTML = `${mail['body']}`;
+
+    // Reply button
+    // [TODO]
+    
+
+    // PUT mail on seen [TODO]
   });
 }
 
