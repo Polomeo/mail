@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+// Pages functions
+
 function compose_email() {
 
   // Show compose view and hide other views
@@ -68,10 +70,12 @@ function send_email(event) {
 }
 
 function load_mailbox(mailbox) {
-  
+
   // Show the mailbox and hide other views
-  document.querySelector('#emails-view').style.display = 'block';
-  document.querySelector('#compose-view').style.display = 'none';
+  // document.querySelector('#emails-view').style.display = 'block';
+  // document.querySelector('#compose-view').style.display = 'none';
+  // REFACTORED - Auxiliary function
+  show_page('#emails-view');
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
@@ -102,16 +106,38 @@ function load_mailbox(mailbox) {
       // Event
       mail.addEventListener('click', function() {
         load_email(element.id);
+        // Create HTML for mailView
         // PUT mail on seen [TODO]
+        // Hide mailbox
+        // Show mail view
       });
     });
   });
 }
 
 function load_email(mail_id) {
+
+  // Show mail view page
+  show_page('#email-view');
+
+
+  // Fetch the mail by id
   fetch(`/emails/${mail_id}`)
   .then(response => response.json())
   .then(mail => {
     console.log(mail);
   });
+}
+
+// Utilitary functions
+function show_page(page) {
+  const pages = ['#emails-view', '#compose-view', '#email-view',];
+
+  // Hide all pages
+  pages.forEach(element =>{
+    document.querySelector(element).style.display = 'none';
+  });
+
+  // Show selected page
+  document.querySelector(page).style.display = 'block';
 }
