@@ -11,4 +11,5 @@ textarea {
     padding: 5px;
     margin-top: 5px;
     background-color: white;
+    cursor: pointer;
 }

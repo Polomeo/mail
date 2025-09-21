@@ -101,15 +101,14 @@ function load_mailbox(mailbox) {
 
       // Event
       mail.addEventListener('click', function() {
-        open_email(element.id);
+        load_email(element.id);
         // PUT mail on seen [TODO]
       });
     });
   });
-
 }
 
-function open_email(mail_id) {
+function load_email(mail_id) {
   fetch(`/emails/${mail_id}`)
   .then(response => response.json())
   .then(mail => {
