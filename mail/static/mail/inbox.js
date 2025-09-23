@@ -79,14 +79,15 @@ function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   // document.querySelector('#emails-view').style.display = 'block';
   // document.querySelector('#compose-view').style.display = 'none';
-  // REFACTORED - Auxiliary function
-  show_page('#emails-view');
+  // REFACTORED - Auxiliary function show_page
+  
+  const emails_view = document.querySelector('#emails-view');
 
   // Show the mailbox name
-  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  emails_view.innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
-  // Fetch the mailbox
-  fetch(`emails/${mailbox}`)
+  // Fetch the mailbox, and reload the cache (so it refresh)
+  fetch(`emails/${mailbox}`, {cache: 'reload'})
   .then(response => response.json())
   .then(emails => {
     console.log(emails);
@@ -97,7 +98,7 @@ function load_mailbox(mailbox) {
       // Create a div element for each mail
       const mail = document.createElement('div');
       mail.innerHTML = `<b> ${element.sender} </b> ${element.subject} - At ${element.timestamp}`;
-      document.querySelector('#emails-view').append(mail);
+      emails_view.append(mail);
 
       // Styling
       mail.setAttribute('class', "mail-list-item");
@@ -111,10 +112,12 @@ function load_mailbox(mailbox) {
       // Event
       mail.addEventListener('click', function() {
         load_email(element.id);
-        
       });
     });
   });
+
+  // Display page
+  show_page('#emails-view');
 }
 
 function load_email(mail_id) {
@@ -171,18 +174,20 @@ function archive_email(mail_id, is_archived) {
 
   // If not given an id, return
   if (!mail_id) {
-    console.log(`[Archive func] Mail ID: ${mail_id}`);
     return;
   }
   
-  // Archive and return to inbox
+  // Archive or unarchive
   fetch(`/emails/${mail_id}`, {
     method: 'PUT',
     body: JSON.stringify({
       archived : !is_archived
     })
   });
+
+  // Load mailbox [BUGGG]
   load_mailbox('inbox');
+    
 }
 
 // Utilitary functions
