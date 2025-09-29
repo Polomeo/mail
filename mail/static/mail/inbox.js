@@ -90,6 +90,7 @@ function send_email(event) {
 }
 
 function load_mailbox(mailbox) {
+  console.log(`Load mailbox: ${mailbox}`);
 
   const emails_view = document.querySelector('#emails-view');
 
@@ -97,7 +98,7 @@ function load_mailbox(mailbox) {
   emails_view.innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
   // Fetch the mailbox, and reload the cache (so it refresh)
-  fetch(`emails/${mailbox}?timestamp=${Date.now()}`)
+  fetch(`emails/${mailbox}?timestamp=${Date.now()}`, {cache: 'reload'})
     .then(response => response.json())
     .then(emails => {
       // Response log
@@ -168,16 +169,15 @@ function load_email(mail_id) {
       }
 
       // Archive button
+      // archive_button.disabled = false;
       archive_button.addEventListener('click', function () {
         archive_email(archive_button.getAttribute('name'), mail.archived);
-      });
+      }, {once : true});
 
-      // Reply button [TODO]
+      // Reply button
       reply_button.addEventListener('click', function () {
         reply_email(reply_button.getAttribute('name'));
-      });
-
-
+      }, {once : true});
 
       // PUT mail on read
       fetch(`/emails/${mail_id}`, {
@@ -191,17 +191,23 @@ function load_email(mail_id) {
 
 function archive_email(mail_id, is_archived) {
 
+  // Deactivate button, so it can be clicked only once
+  // document.querySelector('#archive-btn').disabled = true;
+
   // Archive or unarchive
-  fetch(`/emails/${mail_id}`, {
+  console.log(`Archive func: id - ${mail_id}, is_archived: ${is_archived}`);
+  fetch(`/emails/${mail_id}?timestamp=${Date.now()}`, {
     method: 'PUT',
     body: JSON.stringify({
       archived: !is_archived
     })
   })
-    .then(
-      // Load mailbox
-      load_mailbox('inbox')
-    );
+  .then(response => {
+    if(response.status === 204){
+      load_mailbox('inbox');
+    }
+  });
+
 }
 
 // Utilitary functions
