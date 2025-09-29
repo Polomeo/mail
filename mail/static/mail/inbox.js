@@ -169,7 +169,6 @@ function load_email(mail_id) {
       }
 
       // Archive button
-      // archive_button.disabled = false;
       archive_button.addEventListener('click', function () {
         archive_email(archive_button.getAttribute('name'), mail.archived);
       }, {once : true});
@@ -191,11 +190,7 @@ function load_email(mail_id) {
 
 function archive_email(mail_id, is_archived) {
 
-  // Deactivate button, so it can be clicked only once
-  // document.querySelector('#archive-btn').disabled = true;
-
   // Archive or unarchive
-  console.log(`Archive func: id - ${mail_id}, is_archived: ${is_archived}`);
   fetch(`/emails/${mail_id}?timestamp=${Date.now()}`, {
     method: 'PUT',
     body: JSON.stringify({
