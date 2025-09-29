@@ -7,15 +7,11 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#compose').addEventListener('click', compose_email);
 
   // By default, load the inbox
+  console.log('DOM CONTENT LOADED - Calling load_mailbox')
   load_mailbox('inbox');
 
   // Send email event listener
   document.querySelector('#compose-form').addEventListener('submit', send_email);
-
-  // Archive email event listener
-  // document.querySelector('#archive-btn').addEventListener('click', function () {
-  //   archive_email(document.querySelector('#archive-btn').getAttribute('name'));
-  // });
 
 });
 
@@ -52,8 +48,6 @@ function reply_email(mail_id) {
       document.querySelector('#compose-body').focus({ focusVisible: true });
       document.querySelector('#compose-body').setSelectionRange(0, 0);
     });
-
-
 }
 
 function send_email(event) {
@@ -98,6 +92,8 @@ function send_email(event) {
 
 function load_mailbox(mailbox) {
 
+  // DEBUG
+  console.log('Load_mailbox Called!')
   // Show the mailbox and hide other views
   // document.querySelector('#emails-view').style.display = 'block';
   // document.querySelector('#compose-view').style.display = 'none';
@@ -109,16 +105,21 @@ function load_mailbox(mailbox) {
   emails_view.innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
   // Fetch the mailbox, and reload the cache (so it refresh)
-  fetch(`emails/${mailbox}`, { cache: 'reload' })
+  fetch(`emails/${mailbox}?timestamp=${Date.now()}`)
     .then(response => response.json())
     .then(emails => {
+      // DEBUGs
+      console.log('Mails fetched on Load_mailbox!')
       console.log(emails);
+
+      // Delete previous loaded e-mails so it only shows lastest
+      emails_view.innerHTML = '';
 
       // Add emails to template
       emails.forEach(element => {
 
         // Create a div element for each mail
-        const mail = document.createElement('div');
+        let mail = document.createElement('div');
         mail.innerHTML = `<b> ${element.sender} </b> ${element.subject} - At ${element.timestamp}`;
         emails_view.append(mail);
 
@@ -199,21 +200,18 @@ function load_email(mail_id) {
 
 function archive_email(mail_id, is_archived) {
 
-  // If not given an id, return
-  if (!mail_id) {
-    return;
-  }
-
   // Archive or unarchive
   fetch(`/emails/${mail_id}`, {
     method: 'PUT',
     body: JSON.stringify({
       archived: !is_archived
     })
-  });
+  })
+    .then(
+      // Load mailbox
+      load_mailbox('inbox')
+    );
 
-  // Load mailbox [BUGGG]
-  load_mailbox('inbox');
 
 }
 
