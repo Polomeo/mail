@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#compose').addEventListener('click', compose_email);
 
   // By default, load the inbox
-  console.log('DOM CONTENT LOADED - Calling load_mailbox')
   load_mailbox('inbox');
 
   // Send email event listener
@@ -92,13 +91,6 @@ function send_email(event) {
 
 function load_mailbox(mailbox) {
 
-  // DEBUG
-  console.log('Load_mailbox Called!')
-  // Show the mailbox and hide other views
-  // document.querySelector('#emails-view').style.display = 'block';
-  // document.querySelector('#compose-view').style.display = 'none';
-  // REFACTORED - Auxiliary function show_page
-
   const emails_view = document.querySelector('#emails-view');
 
   // Show the mailbox name
@@ -108,8 +100,7 @@ function load_mailbox(mailbox) {
   fetch(`emails/${mailbox}?timestamp=${Date.now()}`)
     .then(response => response.json())
     .then(emails => {
-      // DEBUGs
-      console.log('Mails fetched on Load_mailbox!')
+      // Response log
       console.log(emails);
 
       // Delete previous loaded e-mails so it only shows lastest
@@ -211,8 +202,6 @@ function archive_email(mail_id, is_archived) {
       // Load mailbox
       load_mailbox('inbox')
     );
-
-
 }
 
 // Utilitary functions
