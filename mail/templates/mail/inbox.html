@@ -2,62 +2,63 @@
 {% load static %}
 
 {% block body %}
-    <h2>{{ request.user.email }}</h2>
+<h2>{{ request.user.email }}</h2>
 
-    <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
-    <button class="btn btn-sm btn-outline-primary" id="compose">Compose</button>
-    <button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
-    <button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
-    <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
-    <hr>
+<button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
+<button class="btn btn-sm btn-outline-primary" id="compose">Compose</button>
+<button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
+<button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
+<a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
+<hr>
 
-    <div id="emails-view">
-    </div>
+<div id="emails-view">
+</div>
 
-    <div id="compose-view">
-        <h3>New Email</h3>
-        <form id="compose-form">
-            <div class="form-group">
-                From: <input disabled class="form-control" value="{{ request.user.email }}">
-            </div>
-            <div class="form-group">
-                To: <input id="compose-recipients" class="form-control">
-                <span id="recipient-error"></span>
-            </div>
-            <div class="form-group">
-                <input class="form-control" id="compose-subject" placeholder="Subject">
-            </div>
-            <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
-            <input type="submit"  class="btn btn-primary"/>
-        </form>
-    </div>
+<div id="compose-view">
+    <h3>New Email</h3>
+    <form id="compose-form">
+        <div class="form-group">
+            From: <input disabled class="form-control" value="{{ request.user.email }}">
+        </div>
+        <div class="form-group">
+            To: <input id="compose-recipients" class="form-control">
+            <span id="recipient-error"></span>
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="compose-subject" placeholder="Subject">
+        </div>
+        <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
+        <input type="submit" class="btn btn-primary" />
+    </form>
+</div>
 
-    <div id="email-view">
-        <table id="mail-header">
-            <tr>
-                <td>From: </td>
-                <td id="mail-sender"></td>
-            </tr>
-            <tr>
-                <td>To: </td>
-                <td id="mail-recipents"></td>
-            </tr>
-            <tr>
-                <td>Subject: </td>
-                <td id="mail-subject"></td>
-            </tr>
-            <tr>
-                <td>Timestamp: </td>
-                <td id="mail-timestamp"></td>
-            </tr>
-        </table>
-        <button type="button" class="btn btn-sm btn-outline-primary" id="reply-btn" name="">Reply</button>
-        <button type="button" class="btn btn-sm btn-outline-primary" id="archive-btn" name=""></button>
-        <p id="mail-body">            
-        </p>
-    </div>
+<div id="email-view">
+    <table id="mail-header">
+        <tr>
+            <td><b>From: </b></td>
+            <td id="mail-sender"></td>
+        </tr>
+        <tr>
+            <td><b>To: </b></td>
+            <td id="mail-recipents"></td>
+        </tr>
+        <tr>
+            <td><b>Subject: </b></td>
+            <td id="mail-subject"></td>
+        </tr>
+        <tr>
+            <td><b>Timestamp: </b></td>
+            <td id="mail-timestamp"></td>
+        </tr>
+    </table>
+    <button type="button" class="btn btn-sm btn-outline-primary" id="reply-btn" name="">Reply</button>
+    <button type="button" class="btn btn-sm btn-outline-primary" id="archive-btn" name=""></button>
+    <hr />
+    <p id="mail-body">
+    </p>
+</div>
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'mail/inbox.js' %}"></script>
+<script src="{% static 'mail/inbox.js' %}"></script>
 {% endblock %}
