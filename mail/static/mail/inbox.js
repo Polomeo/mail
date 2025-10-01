@@ -95,7 +95,7 @@ function load_mailbox(mailbox) {
   const emails_view = document.querySelector('#emails-view');
 
   // Show the mailbox name
-  emails_view.innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
   // Fetch the mailbox, and reload the cache (so it refresh)
   fetch(`emails/${mailbox}?timestamp=${Date.now()}`, {cache: 'reload'})
@@ -105,7 +105,7 @@ function load_mailbox(mailbox) {
       console.log(emails);
 
       // Delete previous loaded e-mails so it only shows lastest
-      emails_view.innerHTML = '';
+      // emails_view.innerHTML = '';
 
       // Add emails to template
       emails.forEach(element => {
